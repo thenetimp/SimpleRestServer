@@ -8,9 +8,8 @@ use Component\ControllerBase as ControllerBase;
 /**
  * Kernel Class
  */
-
-class Kernel {
-    
+class Kernel
+{
     /**
      * Object variables
      */
@@ -41,7 +40,8 @@ class Kernel {
         }
         catch (Exception $e)
         {
-            $response['message'] = $e->getMessage(); 
+            $response['message'] = $e->getMessage();
+            header('HTTP/1.1 500 Internal Server Error'); 
         }
         
         echo json_encode($response);
@@ -81,7 +81,8 @@ class Kernel {
 
         // Define the action
         $action = "index";
-        if(count($parameters) > 1)
+        
+        if(count($parameters) >= 1)
         {
             $action = array_shift($parameters);
         }
@@ -97,7 +98,7 @@ class Kernel {
         // Check if the class name exists if it does not throw an exception.
         if(!class_exists($controllerName)) throw new Exception("REF #00003: Can not complete your request.  Endpoint does not exist");
 
-        // 
+        // Check that the action method exists in the controller class
         if(!in_array($controllerAction, get_class_methods($controllerName))) throw new Exception("REF #00004: Can not complete your request.  Endpoint does not exist");
 
         // Instanciate the new controller

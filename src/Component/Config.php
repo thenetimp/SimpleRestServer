@@ -2,7 +2,11 @@
 
 namespace Component;
 
-class Config {
+/**
+ *
+ */
+class Config
+{
     /**
      * Append configuration file to the configuration array
      */

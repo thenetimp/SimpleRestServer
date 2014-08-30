@@ -5,7 +5,8 @@ namespace Component;
 /**
  *
  */
-class ControllerBase {
+class ControllerBase
+{
 
     protected $config = array();
     
