@@ -10,8 +10,6 @@ class Kernel {
     
     protected $baseDir = null;
     protected $config = array();
-    protected $env = array();
-    protected $request = array();
     
     public function __construct($baseDir = "", $debug = false)
     {
@@ -57,16 +55,6 @@ class Kernel {
             $this->config = Config::appendConfiguration($this->config, $this->baseDir . '/app/conf/database.ini');
             $this->config = Config::appendConfiguration($this->config, $this->baseDir . '/app/conf/security.ini');
         }
-        
-        // Process the server env variables.
-        $this->env['server'] = Config::processServerEnv();
-
-        // Process the server env variables.
-        $this->request['get'] = Config::processGetRequestVars();
-
-        // Process the server env variables.
-        $this->request['post'] = Config::processPostRequestVars();
-        
     }
     
     /**
@@ -74,8 +62,9 @@ class Kernel {
      */
     protected function findControllerByRequestUri()
     {
+
         // Get the parameters
-        $parameters =split('/', substr($this->env['server']['REQUEST_URI'],1));
+        $parameters =split('/', substr(strtok($_SERVER['REQUEST_URI'],'?'),1));
 
         // Define the controller
         $controller = array_shift($parameters);
@@ -91,7 +80,7 @@ class Kernel {
         // Genterate the controller base name and action.
         $controllerName = ControllerBase::generateControllerName($controller);
         $controllerAction = ControllerBase::generateControllerAction($action,
-            $this->env['server']['REQUEST_METHOD']);
+            $_SERVER['REQUEST_METHOD']);
 
         // Generate the new controller class name
         $controllerName = 'Bundle\Controller\\' . $controllerName;
