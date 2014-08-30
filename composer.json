@@ -2,7 +2,7 @@
     "autoload": {
         "psr-0": {
             "": "src",
-            "app": "app/src"
+            "Bundle": "app/src"
         }
     }
 }
