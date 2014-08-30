@@ -6,10 +6,12 @@ namespace Component;
  *
  */
 class ControllerBase {
+
+    protected $config = array();
     
-    public function __construct()
+    public function __construct($config)
     {
-        echo "Controller Constructed";
+        $this->config = $config;
     }
     
     /**

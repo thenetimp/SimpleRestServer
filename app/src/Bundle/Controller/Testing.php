@@ -5,8 +5,9 @@ use Component\ControllerBase as ControllerBase;
 
 class Testing extends ControllerBase
 {
-    public function __construct()
+    public function crashingGetAction($param="", $param2="", $param3="")
     {
-        parent::__construct();
+        echo '<pre>';
+        print_r($this);
     }
 }
