@@ -5,12 +5,21 @@ use \Exception as Exception;
 use Component\Config as Config;
 use Component\ControllerBase as ControllerBase;
 
+/**
+ * Kernel Class
+ */
 
 class Kernel {
     
+    /**
+     * Object variables
+     */
     protected $baseDir = null;
     protected $config = array();
     
+    /**
+     * Construct the kernel
+     */
     public function __construct($baseDir = "", $debug = false)
     {
         $response = array(
