@@ -153,11 +153,6 @@ class Kernel
         
         $headers = array();
         
-        // echo '<pre>';
-        // print_r($this->config);
-        // exit();
-        
-        
         if((isset($this->config['security']['enabled']) && $this->config['security']['enabled']) && !call_user_func_array(array($controller, 'authorized'), array($controllerAction)))
         {
             $this->headers = call_user_func_array(array($controller, 'getHeaders'),array());

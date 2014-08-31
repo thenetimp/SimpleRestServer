@@ -41,12 +41,40 @@ By default security is disabled.  To enable it you must change the settings in a
     enabled=false   // change to true to enable it.
     security_class=Bundle\Security\HttpDigest // the class to manage security
     
-The securit_class must extend AbstractSecurity abstract class (too be defined and created soon).  The controller calls the "authorized" method on the security class and returns tru if authorized and false if not authorzed.  All security work must be done within that file.  By default SRS supports 2 authentication methods and provides 2 template classes t over-ride.
+The securit_class must extend AbstractSecurity abstract class (too be defined and created soon).  The controller calls the "authorized" method on the security class and returns tru if authorized and false if not authorzed.  All security work must be done within that file.  By default SRS supports 2 authentication methods and provides 2 template classes to over-ride.
 
 http_basic authentication
 =========================
-(more information soon)
 
+SRS comes with a template file for Http basic authentication.  In order to use it you must provide logic for validatePasses method.  In php http basic username and password are stored in the $_SERVER global variable with keys 'PHP_AUTH_USER' and 'PHP_AUTH_PW'.
+
+    <?php
+        namespace Bundle\Security;
+
+        use Security\HttpBasicBase as HttpBasicBase;
+
+        class HttpBasic extends HttpBasicBase
+        {
+            protected function validationPassed()
+            {
+                $username = $_SERVER['PHP_AUTH_USER'];
+                $password = $_SERVER['PHP_AUTH_PW'];
+                
+                // Make sure to cleans your input.
+                $sql = "select passwordhash from users where username='" . $username . "'";
+                
+                // not a real life example of querying the database....
+                $row = (perform your query here and get the first row);
+                
+                if($row['password'] == hash('md5',$password))
+                {
+                    return true;
+                }
+
+                return false;
+            }
+        }
+        
 
 http_digest authentication
 =========================
