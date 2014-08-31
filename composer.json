@@ -1,5 +1,5 @@
 {
-    "name": "theNetImp/SimpleRestServer",
+    "name": "thenetimp/simple-rest-server",
     "description": "A simple REST server implementation.",
     "require": {
         "php": ">=5.3.0"
