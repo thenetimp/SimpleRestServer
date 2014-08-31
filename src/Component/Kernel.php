@@ -57,7 +57,7 @@ class Kernel
                         {
                             case '401':
                                 $response['succeed'] = "false";
-                                $response['messages'] = $message; 
+                                $response['message'] = $message; 
                         }
                     }
                     else
