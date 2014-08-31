@@ -19,6 +19,7 @@ class Kernel
     protected $baseDir = null;
     protected $config = array();
     protected $headers = array();
+    protected $dbResource = null;
     
     /**
      * Construct the kernel
@@ -35,6 +36,12 @@ class Kernel
                 throw new Exception("REF #00001: Base directory is not defined, does not exist, or is un-readable");
             $this->baseDir = $baseDir;
             $this->configure();
+            
+            if(isset($this->config['database']['enabled']) && $this->config['database']['enabled'])
+            {
+                $this->configureDatabase();
+            }
+            
             $responseData = $this->findControllerByRequestUri();
             
             $response['succeed'] = "true";
@@ -111,6 +118,22 @@ class Kernel
             $this->config = Config::appendConfiguration($this->config, $this->baseDir . '/app/conf/database.ini');
             $this->config = Config::appendConfiguration($this->config, $this->baseDir . '/app/conf/security.ini');
         }
+    }
+    
+    /**
+     * create the database object
+     */
+    public function configureDatabase()
+    {
+        // Get the database class and see if it exists.
+        $dbClass = $this->config['database']['handler_class'];
+        if(!isset($dbClass) || !class_exists($dbClass)) throw new Exception("REF 0005: Unable to create the database resource.");
+
+        // Instanciate the database class
+        $database = new $dbClass();
+
+        // Get the database resource from the database object
+        $this->dbResource =  $database->getResourceHandler();
     }
     
     /**
