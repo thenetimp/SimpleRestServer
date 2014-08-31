@@ -12,12 +12,10 @@ class HttpBasicBase
     protected $headers = array();
 
 
-    public function __construct($realm="")
+    public function __construct($securityConfig= array())
     {
-        // Make sure the realm is 
-        if($realm == "") $realm = "Secure Area";
-        $this->realm = $realm;
-        
+        if(isset($securityConfig['realm'])) $this->realm = $securityConfig['realm'];
+        if($this->realm == "") $this->realm="Secure Area";
     }
 
     /**

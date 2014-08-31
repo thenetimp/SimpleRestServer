@@ -60,11 +60,8 @@ SRS comes with a template file for Http basic authentication.  In order to use i
                 $username = $_SERVER['PHP_AUTH_USER'];
                 $password = $_SERVER['PHP_AUTH_PW'];
                 
-                // Make sure to cleans your input.
-                $sql = "select passwordhash from users where username='" . $username . "'";
-                
                 // not a real life example of querying the database....
-                $row = (perform your query here and get the first row);
+                $row = (perform your database query here and get the first row);
                 
                 if($row['password'] == hash('md5',$password))
                 {
@@ -78,6 +75,34 @@ SRS comes with a template file for Http basic authentication.  In order to use i
 
 http_digest authentication
 =========================
-(more information soon)
+SRS also comes with a template for basic http_digest authentication.
+
+    <?php
+
+    namespace Bundle\Security;
+
+    use Security\HttpDigestBase as HttpDigestBase;
+
+    /**
+     *
+     */
+    class HttpDigest extends HttpDigestBase
+    {
+        /**
+         *  User defined function to allow getting the password from the database.
+         */
+        public function getPasswordHashForUsername($username)
+        {
+            // Query a query to get the password hash from the database for the user and 
+            // return it.  No other validation is required here as the base class does the validation.
+            // the password stored in your database MUST adhere to the below algorithm
+            // hash('md5', $username . ':' . $digestRealm . ':' . $password);
+            // $digestRealm should always be the same as the "realm" parameter in the security.ini file.
+            // It is important that this does not change as it will break all previously generated passwords.
+            // You should however set the realm to something different than the default to help secure your API
+
+            return $passwordHash;
+        }
+    }
 
 
