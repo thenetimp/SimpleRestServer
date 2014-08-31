@@ -1,4 +1,10 @@
 {
+    "name": "theNetImp/SimpleRestServer",
+    "description": "A simple REST server implementation.",
+    "require": {
+        "php": ">=5.3.0",
+        "another-vendor/package": "1.*"
+    }
     "autoload": {
         "psr-0": {
             "": "src",
