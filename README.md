@@ -12,8 +12,9 @@ Say your API service is located at https://api.foo.bar/ and someone wants to cal
   * user = Controller  = app/src/Bundle/Controler/UserController.php
   * profile = action = profileGetAction
   * 1 = parameter 1 of the action method
+  * additional segments will become additional parameters in the method.
 
-The method is 3 parts.  The action + method + Action therefore to use a GET method on /user/profile/1 the method name in UserController is profileGetAction()
+The request URI is broken up like this. method, ction and them parameters therefore to use a GET method on /user/profile/1 the method name in UserController is profileGetAction()
     
     <?php
     
@@ -30,6 +31,29 @@ The method is 3 parts.  The action + method + Action therefore to use a GET meth
                 return $data;
             }
         }
+        
+The request URI is broken up like this. amethod, ction and them parameters therefore to use a GET method on /user/profile/1/test/34 the method name in UserController is profileGetAction() and the 3 following parameters are
+
+  * $userId = 1
+  * $service = test
+  * $roleId = 34
+    
+    <?php
+    
+        class UserController 
+        {
+            public function profileGetAction($userId = 0, $service = null, $roleId)
+            {
+                $data = array();
+                
+                //  Code here to get the data that is needed to get the profile.
+
+                // $data is returned at the end and json encoded by 
+                //the kernel $data can be an array or a valid object.
+                return $data;
+            }
+        }        
+        
 
 
 Database
