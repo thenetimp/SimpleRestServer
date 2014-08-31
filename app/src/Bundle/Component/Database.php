@@ -2,13 +2,22 @@
     
 namespace Bundle\Component;
 
+use \Exception as Exception;
 use Component\AbstractDatabase as AbstractDatabase;
 
 class Database extends AbstractDatabase
 {
-    public function __construct($databaseConfig= array())
+    public function __construct($dbCfg= array())
     {
-        // construct your database configuration here and put 
-        // and link it's resource to $this->resourse
+        
+        //connection to the database
+        $mysqli = new \mysqli($dbCfg['hostname'], $dbCfg['username'], $dbCfg['password'], $dbCfg['database']);
+        
+        if ($mysqli->connect_errno) {
+            throw new Exception("Unable to connect to the database with given database name.");
+        }
+
+        $this->dbResource = $mysqli
+        
     }
 }

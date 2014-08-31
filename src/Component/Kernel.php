@@ -130,7 +130,7 @@ class Kernel
         if(!isset($dbClass) || !class_exists($dbClass)) throw new Exception("REF 0005: Unable to create the database resource.");
 
         // Instanciate the database class
-        $database = new $dbClass();
+        $database = new $dbClass($this->config['database']);
 
         // Get the database resource from the database object
         $this->dbResource =  $database->getResourceHandler();
@@ -172,7 +172,7 @@ class Kernel
         if(!in_array($controllerAction, get_class_methods($controllerName))) throw new Exception("REF #00004: Can not complete your request.  Endpoint does not exist");
 
         // Instanciate the new controller
-        $controller = new $controllerName($this->config);
+        $controller = new $controllerName($this->config, $this->dbResource);
         
         $headers = array();
         
@@ -193,3 +193,11 @@ class Kernel
         return $this->config;
     }
 }
+
+// Set a new error handler function for php
+// functions that don't throw exceptions
+// It will also prevent any other error from being displayed
+// unless it is captured, for now we'll not capture anything.
+set_error_handler(function($errno , $errstr) {
+    
+});

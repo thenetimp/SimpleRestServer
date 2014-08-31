@@ -11,14 +11,16 @@ class ControllerBase
     protected $config = array();
     protected $responseHeaders = array();
     protected $disabledSecurityActions = array();
+    protected $dbr = null;
     
     /**
      *
      */
-    public function __construct($config = array())
+    public function __construct($config = array(), $dbResource = null)
     {
         global $_HEADER;
         $this->config = $config;
+        $this->dbr = $dbResource;
     }
     
     /**

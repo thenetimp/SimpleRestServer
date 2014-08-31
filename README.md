@@ -32,6 +32,45 @@ The method is 3 parts.  The action + method + Action therefore to use a GET meth
         }
 
 
+Database
+========
+
+Database connectivity is designed so you can use whatever database connectivity you want.  Doctrine? Propel? adodb? basic mysql function calls.  All supported as it is up to you to create the code to connect to the resource.  In the database.ini file 2 parameters are required the others are optional based on your chosen database.  if "enabled" is set to "true" then SRS will try to create the database resourse using the class specified in "handler_class".  In the example below it is set to "Bundle\Component\Database".
+
+    [database]
+    enabled=true
+    handler_class=Bundle\Component\Database
+    username=root
+    password=
+    hostname=localhost
+    database=srs_db
+    portnumb=3306
+
+The class file "Bundle\Component\Database" might look something like this to connect to a mysql database.
+
+    <?php
+    
+    namespace Bundle\Component;
+
+    use Component\AbstractDatabase as AbstractDatabase;
+
+    class Database extends AbstractDatabase
+    {
+        public function __construct($databaseConfig= array())
+        {
+            //connection to the database
+            $mysqli = new \mysqli($dbCfg['hostname'], $dbCfg['username'], $dbCfg['password'], $dbCfg['database']);
+            if ($mysqli->connect_errno) {
+                throw new Exception("Unable to connect to the database with given credentials.");
+            }
+
+            $this->dbResource = $mysqli            
+        }
+    }
+
+From this point the $mysqli resource will be available as $this->dbr in the Controller file.
+
+
 Security
 ========
 
