@@ -56,7 +56,7 @@ The class file "Bundle\Component\Database" might look something like this to con
 
     class Database extends AbstractDatabase
     {
-        public function __construct($databaseConfig= array())
+        public function __construct($dbCfg= array())
         {
             //connection to the database
             $mysqli = new \mysqli($dbCfg['hostname'], $dbCfg['username'], $dbCfg['password'], $dbCfg['database']);
