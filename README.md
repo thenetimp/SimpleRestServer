@@ -13,8 +13,7 @@ Say your API service is located at https://api.foo.bar/ and someone wants to cal
     profile = action = profileGetAction
     1 = parameter 1 of the action method
     
-    The method is 3 parts.  The action + method + Action therefore to use a GET method 
-    on /user/profile/1 the method name in UserController is profileGetAction()
+The method is 3 parts.  The action + method + Action therefore to use a GET method on /user/profile/1 the method name in UserController is profileGetAction()
     
     <?php
     
@@ -33,10 +32,24 @@ Say your API service is located at https://api.foo.bar/ and someone wants to cal
         }
 
 
+Security
+========
+
+By default security is disabled.  To enable it you must change the settings in app/conf/security.ini
+
+    [security]
+    enabled=false   // change to true to enable it.
+    security_class=Bundle\Security\HttpDigest // the class to manage security
+    
+The securit_class must extend AbstractSecurity abstract class (too be defined and created soon).  The controller calls the "authorized" method on the security class and returns tru if authorized and false if not authorzed.  All security work must be done within that file.  By default SRS supports 2 authentication methods and provides 2 template classes t over-ride.
+
+http_basic authentication
+=========================
+(more information soon)
 
 
-
-
-
+http_digest authentication
+=========================
+(more information soon)
 
 
