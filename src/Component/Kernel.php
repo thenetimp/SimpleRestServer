@@ -24,7 +24,7 @@ class Kernel
     /**
      * Construct the kernel
      */
-    public function __construct($baseDir = "", $debug = false)
+    public function __construct($baseDir = "")
     {
         $response = array(
             'succeed' => false,
@@ -198,6 +198,12 @@ class Kernel
 // functions that don't throw exceptions
 // It will also prevent any other error from being displayed
 // unless it is captured, for now we'll not capture anything.
-set_error_handler(function($errno , $errstr) {
-    
+set_error_handler(function($errno , $errstr)
+{
+    global $debug;    
+    if($debug)
+    {
+        throw new Exception("Error no: " . $errno . ', Message: ' . $errstr);
+        exit();
+    }
 });

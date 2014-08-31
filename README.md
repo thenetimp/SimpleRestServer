@@ -145,5 +145,3 @@ SRS also comes with a template for basic http_digest authentication.
             return $passwordHash;
         }
     }
-
-

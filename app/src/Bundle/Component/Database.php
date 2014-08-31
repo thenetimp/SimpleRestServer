@@ -17,7 +17,7 @@ class Database extends AbstractDatabase
             throw new Exception("Unable to connect to the database with given database name.");
         }
 
-        $this->dbResource = $mysqli
+        $this->dbResource = $mysqli;
         
     }
 }
