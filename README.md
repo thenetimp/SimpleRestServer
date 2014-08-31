@@ -37,6 +37,8 @@ The request URI is broken up like this. amethod, ction and them parameters there
   * $userId = 1
   * $service = test
   * $roleId = 34
+
+In the example below.
   
     <?php
     
