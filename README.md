@@ -38,6 +38,7 @@ The request URI is broken up like this. amethod, ction and them parameters there
   * $service = test
   * $roleId = 34
     
+
     <?php
     
         class UserController 
@@ -47,7 +48,6 @@ The request URI is broken up like this. amethod, ction and them parameters there
                 $data = array();
                 
                 //  Code here to get the data that is needed to get the profile.
-
                 // $data is returned at the end and json encoded by 
                 //the kernel $data can be an array or a valid object.
                 return $data;
