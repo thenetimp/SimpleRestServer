@@ -1,9 +1,12 @@
 <?php
 
 namespace Component;
+
+use \ArrayObject as ArrayObject;
 use \Exception as Exception;
 use Component\Config as Config;
 use Component\ControllerBase as ControllerBase;
+use Component\Header as Header;
 
 /**
  * Kernel Class
@@ -15,6 +18,7 @@ class Kernel
      */
     protected $baseDir = null;
     protected $config = array();
+    protected $headers = array();
     
     /**
      * Construct the kernel
@@ -32,17 +36,51 @@ class Kernel
             $this->baseDir = $baseDir;
             $this->configure();
             $responseData = $this->findControllerByRequestUri();
-            $response['succeed'] = true;
+            
+            $response['succeed'] = "true";
             $response['message'] = 'succeed';
+            
+            $responseCodeHeader = null;
+            $headers = array();
+            
+            if(count($this->headers) > 0)
+            {
+                foreach($this->headers as $key => $val)
+                {
+                    if($key == '0')
+                    {
+                        $responseCodeheader = $val;
+                        
+                        list($protocol, $code, $message) = split(" ", $responseCodeheader);
+
+                        switch($code)
+                        {
+                            case '401':
+                                $response['succeed'] = "false";
+                                $response['messages'] = $message; 
+                        }
+                    }
+                    else
+                    {
+                        $headers[] = $key . ': ' . $val;
+                    }
+                }
+            }
+
+            header($responseCodeHeader);
+            foreach($headers as $header)
+            {
+                header($header);
+            }
+                
             $response['data'] = $responseData;
-            
-            
         }
         catch (Exception $e)
         {
             $response['message'] = $e->getMessage();
             header('HTTP/1.1 500 Internal Server Error'); 
         }
+        
         
         echo json_encode($response);
     }
@@ -52,6 +90,10 @@ class Kernel
      */
     protected function configure()
     {
+        global $_HEADER;
+        
+        $_HEADER = new ArrayObject(getallheaders());
+        
         if(!file_exists($this->baseDir . '/app/conf') && !is_readable($this->baseDir . 'app/conf'))
             throw new Exception("REF #00002: Config directory is not defined, does not exist, or is un-readable");
 
@@ -104,7 +146,22 @@ class Kernel
         // Instanciate the new controller
         $controller = new $controllerName($this->config);
         
-        // Call the controller action on the controller object.
-        return @call_user_func_array(array($controller, $controllerAction), $parameters);
+        $headers = array();
+        
+        if(!call_user_func_array(array($controller, 'authorized'),array()))
+        {
+            $this->headers = call_user_func_array(array($controller, 'getHeaders'),array());
+            return @call_user_func_array(array($controller, $controllerAction), $parameters);
+        }
+        else
+        {
+            // Call the controller action on the controller object.
+            return @call_user_func_array(array($controller, $controllerAction), $parameters);
+        }
+    }
+    
+    public function getConfig()
+    {
+        return $this->config;
     }
 }
