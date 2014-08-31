@@ -56,7 +56,7 @@ class ControllerBase
         if($this->config['security']['enabled'] && !in_array($controllerAction, $this->disabledSecurityActions))
         {
             $securityClass = $this->config['security']['security_class'];
-            $security = new $securityClass($this->config['security']);
+            $security = new $securityClass($this->config['security'], $this->dbr);
             
             if(!$security->authorized())
             {

@@ -145,3 +145,16 @@ SRS also comes with a template for basic http_digest authentication.
             return $passwordHash;
         }
     }
+    
+Extending Security
+--------------------------
+
+Creating a custom class that extends security should extend Security\AbstractSecurity class.  The new Security class will need to have a public function authorized() which returns true if passed authorization process or false if it failed authorization process.  The 
+
+
+
+
+
+
+
+    

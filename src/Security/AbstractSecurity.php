@@ -5,8 +5,11 @@ namespace Security;
 abstract class AbstractSecurity { 
 
     // Construct function takes in an array called securityConfig
-    abstract function __construct($securityConfig= array());
+    public function __construct($securityConfig= array(), $dbr = null)
+    {
+        $this->dbr = $dbr;
+    }
 
     // Function returns true if authorized false if not authorized
-    abstract function authorized();
+    abstract public function authorized();
 } 

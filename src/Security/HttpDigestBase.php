@@ -14,8 +14,9 @@ class HttpDigestBase extends AbstractSecurity
     /**
      *
      */
-    public function __construct($securityConfig = array())
+    public function __construct($securityConfig = array(), $dbr=null)
     {
+        parent::__construct($securityConfig, $dbr);
         if(isset($securityConfig['realm'])) $this->realm = $securityConfig['realm'];
         if($this->realm == "") $this->realm="Secure Area";
     }
