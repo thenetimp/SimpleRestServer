@@ -51,7 +51,7 @@ class ControllerBase
     public function authorized($controllerAction)
     {
         // Security should be first in the config so we can send headers.
-        if($this->config['security']['enabled_globally'] && !in_array($controllerAction, $this->disabledSecurityActions))
+        if($this->config['security']['enabled'] && !in_array($controllerAction, $this->disabledSecurityActions))
         {
             $securityClass = $this->config['security']['security_class'];
             $security = new $securityClass();

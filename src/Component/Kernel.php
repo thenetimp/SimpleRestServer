@@ -82,6 +82,11 @@ class Kernel
         }
         
         
+        if($response['succeed'] == "false")
+        {
+            unset($response['data']);
+        }
+        
         echo json_encode($response);
     }
     
@@ -119,7 +124,7 @@ class Kernel
 
         // Define the controller
         $controller = array_shift($parameters);
-        if($controller == "") $controller = "DefaultController";
+        if($controller == "") $controller = "Default";
 
         // Define the action
         $action = "index";
@@ -135,7 +140,7 @@ class Kernel
             $_SERVER['REQUEST_METHOD']);
 
         // Generate the new controller class name
-        $controllerName = 'Bundle\Controller\\' . $controllerName;
+        $controllerName = 'Bundle\Controller\\' . $controllerName . 'Controller';
 
         // Check if the class name exists if it does not throw an exception.
         if(!class_exists($controllerName)) throw new Exception("REF #00003: Can not complete your request.  Endpoint does not exist");
@@ -148,7 +153,12 @@ class Kernel
         
         $headers = array();
         
-        if(!call_user_func_array(array($controller, 'authorized'), array($controllerAction)))
+        // echo '<pre>';
+        // print_r($this->config);
+        // exit();
+        
+        
+        if((isset($this->config['security']['enabled']) && $this->config['security']['enabled']) && !call_user_func_array(array($controller, 'authorized'), array($controllerAction)))
         {
             $this->headers = call_user_func_array(array($controller, 'getHeaders'),array());
             return @call_user_func_array(array($controller, $controllerAction), $parameters);
