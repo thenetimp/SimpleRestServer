@@ -5,7 +5,7 @@ namespace Security;
 /**
  *
  */
-class HttpBasicBase
+class HttpBasicBase extends AbstractSecurity
 {
     protected $realm;
     protected $authParams = array();
