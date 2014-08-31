@@ -148,7 +148,7 @@ class Kernel
         
         $headers = array();
         
-        if(!call_user_func_array(array($controller, 'authorized'),array()))
+        if(!call_user_func_array(array($controller, 'authorized'), array($controllerAction)))
         {
             $this->headers = call_user_func_array(array($controller, 'getHeaders'),array());
             return @call_user_func_array(array($controller, $controllerAction), $parameters);

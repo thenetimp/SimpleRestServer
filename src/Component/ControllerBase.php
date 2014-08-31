@@ -8,14 +8,14 @@ namespace Component;
 class ControllerBase
 {
 
-    protected $responseHeaders = array();
-
     protected $config = array();
+    protected $responseHeaders = array();
+    protected $disabledSecurityActions = array();
     
     /**
      *
      */
-    public function __construct($config = array(), $secureActions = array())
+    public function __construct($config = array())
     {
         global $_HEADER;
         $this->config = $config;
@@ -48,10 +48,10 @@ class ControllerBase
         return $this->responseHeaders;
     }
     
-    public function authorized()
+    public function authorized($controllerAction)
     {
         // Security should be first in the config so we can send headers.
-        if($this->config['security']['enabled_globally'])
+        if($this->config['security']['enabled_globally'] && !in_array($controllerAction, $this->disabledSecurityActions))
         {
             $securityClass = $this->config['security']['security_class'];
             $security = new $securityClass();
