@@ -39,6 +39,7 @@ By default security is disabled.  To enable it you must change the settings in a
 
     [security]
     enabled=false   // change to true to enable it.
+    realm=Secure Area // security realm
     security_class=Bundle\Security\HttpDigest // the class to manage security
     
 The securit_class must extend AbstractSecurity abstract class (too be defined and created soon).  The controller calls the "authorized" method on the security class and returns tru if authorized and false if not authorzed.  All security work must be done within that file.  By default SRS supports 2 authentication methods and provides 2 template classes to over-ride.
