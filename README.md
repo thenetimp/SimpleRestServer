@@ -9,9 +9,9 @@ Anatomy of a Request.
 =======================
 Say your API service is located at https://api.foo.bar/ and someone wants to call the resource /user/profile/1.  The request URL contains the information needed to route the request to the right controller and action.
 
-    user = Controller  = app/src/Bundle/Controler/UserController.php
-    profile = action = profileGetAction
-    1 = parameter 1 of the action method
+    * user = Controller  = app/src/Bundle/Controler/UserController.php
+    * profile = action = profileGetAction
+    * 1 = parameter 1 of the action method
     
 The method is 3 parts.  The action + method + Action therefore to use a GET method on /user/profile/1 the method name in UserController is profileGetAction()
     
@@ -45,7 +45,7 @@ By default security is disabled.  To enable it you must change the settings in a
 The securit_class must extend AbstractSecurity abstract class.  The controller calls the "authorized" method on the security class and returns tru if authorized and false if not authorzed.  All security work must be done within that file.  By default SRS supports 2 authentication methods and provides 2 template classes to over-ride.
 
 http_basic authentication
-=========================
+-------------------------
 
 SRS comes with a template file for Http basic authentication.  In order to use it you must provide logic for validatePasses method.  In php http basic username and password are stored in the $_SERVER global variable with keys 'PHP_AUTH_USER' and 'PHP_AUTH_PW'.
 
@@ -75,7 +75,8 @@ SRS comes with a template file for Http basic authentication.  In order to use i
         
 
 http_digest authentication
-=========================
+--------------------------
+
 SRS also comes with a template for basic http_digest authentication.
 
     <?php
